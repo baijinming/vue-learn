@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="todo" @keyup.13="add" placeholder="todo">
+        <button  @click="add">添加</button>
+        <br>
+        正在进行：<strong>{{undone}}</strong>
+        <ul>
+            <li v-for="item in todos" v-if="!item.isCompleted">
+                <input type="checkbox" v-model="item.isCompleted">
+                <strong v-show="!isredact">{{item.todo}}</strong>
+                <input type="text" v-model="item.todo" v-show="isredact">
+            </li>
+        </ul>
+        已完成: <strong>{{done}}</strong>
+        <ul>
+            <li v-for="item in todos" v-if="item.isCompleted">
+                <input type="checkbox" v-model="item.isCompleted">
+                <strong v-show="!isredact">{{item.todo}}</strong>
+                <input type="text" v-model="item.todo" v-show="isredact">
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    const app=new Vue({
+        el:"#app",
+        data:{
+            todo:"",
+            isredact:false,
+            todos:[
+                {
+                    todo:"你好",
+                    isCompleted:false
+                },
+                {
+                    todo:"hello",
+                    isCompleted:false
+                }
+            ]
+        },
+        methods:{
+            add(){
+                this.todos.push({
+                    todo:this.todo,
+                    isCompleted:false
+                })
+                this.todo=""
+            },
+        },
+        computed:{
+            undone(){
+                return this.todos.filter(item=>!item.isCompleted).length
+            },
+            done(){
+                return this.todos.filter(item=>item.isCompleted).length
+            }
+        }
+    })
+
+</script>
+</html>

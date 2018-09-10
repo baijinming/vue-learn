@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body>  
+    <div id="app">
+        <p>{{text}}</p>
+        <button @click="reduce">---</button>
+        <button @click="addpercent">+++</button>
+        <counter v-bind:num="text" @addself="addpercent" @reduceself="reduce"></counter>
+    </div>
+</body>
+<script src="./vue.js"></script>
+<script>
+    const counter={
+        props:{
+            num:{
+                type:Number
+            }
+        },
+        data(){
+            return {
+                number:this.num
+            }
+        },
+        template:`
+            <div>
+                <button @click="reduce">-</button>
+                <strong>{{number}}</strong>
+                <button @click="add">+</button>
+            </div>
+        `,
+        methods:{
+            add(){
+                this.$emit('addself')
+            },
+            reduce(){
+                this.$emit('reduceself')
+            }
+        },
+        watch:{
+            num(val){
+                this.number=val
+            }
+        }
+    }
+    const app=new Vue({
+        el:"#app",
+        data:{
+            text:10
+        },
+        methods:{
+            addpercent(){
+                this.text++
+            },
+            reduce(){
+                this.text--
+            }
+        },
+        components:{
+            counter
+        }
+    })
+</script>
+</html>
