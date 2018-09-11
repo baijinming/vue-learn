@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    // let date=new Date()
+    // date.setMinutes(54)
+    // let dateStr = date.toUTCString()
+    // console.log(dateStr)
+    // document.cookie = "name=lisi"
+    // document.cookie = "sex=man; expires=" + dateStr
+    // let cookie=document.cookie
+    // console.log(cookie)
+
+    function getCookie() {
+        let obj={}
+        let cookieArr=document.cookie.split(";");
+        cookieArr.forEach(item=>{
+            let key=item.split("=")[0].trim()
+            let value=item.split("=")[1]
+            obj[key]=value
+        })
+        return obj
+    }
+    console.log(getCookie())
+
+    function setCookie(key,value,expires) {
+        if(!expires){
+            document.cookie = `${key}=${value}`
+        }else {
+            let date=new Date().getTime();
+            let unix=expires*1000+date;
+            let newDate=new Date(unix).toUTCString()
+            document.cookie = `${key}=${value};expires=${newDate}`
+        }
+    }
+    setCookie("ggg","6565",120)
+
+    function removeCookie(key) {
+        let value=""
+        let date = new Date().getTime()
+        let newdate = new Date(date-10).toUTCString()
+        document.cookie = `${key}=${value};expires=${newdate}`
+    }
+    setTimeout(()=>{
+        removeCookie("ggg")
+    },10000)
+</script>
+</html>

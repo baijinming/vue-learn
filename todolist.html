@@ -11,9 +11,9 @@
         <br>
         正在进行：<strong>{{undone}}</strong>
         <ul>
-            <li v-for="item in todos" v-if="!item.isCompleted">
+            <li v-for="(item,index) in todos" v-if="!item.isCompleted">
                 <input type="checkbox" v-model="item.isCompleted">
-                <strong v-show="!isredact">{{item.todo}}</strong>
+                <strong v-show="!isredact">{{item.todo}}</strong><a href="javascript:;" @click="reduce(index)">删除</a>
                 <input type="text" v-model="item.todo" v-show="isredact">
             </li>
         </ul>
@@ -53,6 +53,9 @@
                 })
                 this.todo=""
             },
+            reduce(index){
+                this.todos.splice(index,1)
+            }
         },
         computed:{
             undone(){
