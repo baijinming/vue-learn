@@ -1,18 +1,22 @@
 <template>
   <div>
-    <ul class="nav">
-      <li><router-link :to="{name:'home1'}">首页</router-link></li>
-      <li><router-link :to="{name:'about1'}">详情</router-link></li>
-      <li><router-link :to="{name:'login1'}">登录</router-link></li>
-    </ul>
+    <div class="nav">
+      <ul>
+        <li><router-link :to="{name:'home1'}">首页</router-link></li>
+        <li><router-link :to="{name:'about1',params:{id:'996'}}">详情</router-link></li>
+        <li><router-link :to="{name:'login1'}">登录</router-link></li>
+      </ul>
+    </div>
     <div class="header">头部</div>
-    <router-view class="body"></router-view>
+    <div class="body">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
     export default {
-        name: "main"
+
     }
 </script>
 

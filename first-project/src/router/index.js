@@ -36,10 +36,11 @@ const router = new Router({
     {
       path: '/main',
       name: 'main',
-      component: ()=>import('../components/main'),
+      component: ()=>import('../views/Layout/index'),
+      redirect:'/main/home',
       children:[
         {
-          path: '/',
+          path: 'home',
           name: 'home1',
           component: home,
           meta:{
@@ -47,7 +48,7 @@ const router = new Router({
           }
         },
         {
-          path: '/about/:id',
+          path: 'about/:id',
           name: 'about1',
           component: ()=>import('../components/about'),
           meta:{
@@ -55,7 +56,7 @@ const router = new Router({
           }
         },
         {
-          path: '/login',
+          path: 'login',
           name: 'login1',
           component: ()=>import('../components/login'),
           meta:{

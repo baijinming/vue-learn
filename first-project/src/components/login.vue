@@ -11,7 +11,6 @@
     import axios from 'axios'
 
     export default {
-        name: "login",
         data(){
           return {
             username:"",
@@ -26,7 +25,6 @@
           }).then(res=>{
             if(res.data.code == 200){
               alert('登录成功')
-              this.$router.push('/')
             }else {
               alert('登录失败')
             }
