@@ -36,7 +36,7 @@
   }
   .header{
     margin-left: 200px;
-    height: 300px;
+    height: 100px;
     background-color: yellow;
   }
   .body{

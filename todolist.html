@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .xx{
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -13,16 +18,18 @@
         <ul>
             <li v-for="(item,index) in todos" v-if="!item.isCompleted">
                 <input type="checkbox" v-model="item.isCompleted">
-                <strong v-show="!isredact">{{item.todo}}</strong><a href="javascript:;" @click="reduce(index)">删除</a>
-                <input type="text" v-model="item.todo" v-show="isredact">
+                <strong v-show="!isredact">{{item.todo}}</strong>
+                <input type="text" v-model="item.todo" v-show="isredact" >
+                <a href="javascript:;" @click="reduce(index)">删除</a>
             </li>
         </ul>
         已完成: <strong>{{done}}</strong>
         <ul>
-            <li v-for="item in todos" v-if="item.isCompleted">
+            <li v-for="(item,index) in todos" v-if="item.isCompleted" class="xx">
                 <input type="checkbox" v-model="item.isCompleted">
                 <strong v-show="!isredact">{{item.todo}}</strong>
                 <input type="text" v-model="item.todo" v-show="isredact">
+                <a href="javascript:;" @click="reduce(index)">删除</a>
             </li>
         </ul>
     </div>
@@ -43,7 +50,8 @@
                     todo:"hello",
                     isCompleted:false
                 }
-            ]
+            ],
+            oldvalue:""
         },
         methods:{
             add(){
