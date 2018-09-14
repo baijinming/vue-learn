@@ -34,6 +34,14 @@ const router = new Router({
       }
     },
     {
+      path: '/bubbing',
+      name: 'bubbing',
+      component: () => import('../components/bubbing'),
+      meta: {
+        title: "冒泡动画"
+      }
+    },
+    {
       path: '/main',
       name: 'main',
       component: ()=>import('../views/Layout/index'),

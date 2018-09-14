@@ -1,5 +1,10 @@
 <template>
     <div>
+      <slot name="zujian"></slot>
+      <slot></slot>
+
+      <br>
+
       <h1>首页</h1>
       <router-link to="/login">登录</router-link>
       <button @click="getJsonp">通过jsonp方式跨域获取数据</button>

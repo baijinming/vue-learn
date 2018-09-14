@@ -9,14 +9,20 @@
     </div>
     <div class="header">头部</div>
     <div class="body">
-      <router-view></router-view>
+      <router-view>
+        <h1>slot</h1>
+        <about slot="zujian"></about>
+      </router-view>
     </div>
   </div>
 </template>
 
 <script>
+    import about from '../../components/about'
     export default {
-
+        components:{
+          about
+        }
     }
 </script>
 
