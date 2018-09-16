@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { Notification } from 'element-ui'
+import router from '../router'
 
 const baseURL = '/api/admin'
 
@@ -15,14 +17,23 @@ const xhr = {
       })
     })
   },
-  post (url, data, config) {
+  post (url, data, config, method = 'post') {
     return new Promise((resolve,reject) => {
-      instance.post(url, data, config).then(res=>{
+      instance[method](url, data, config).then(res=>{
+        if(res.data.code == 401) {
+          Notification.error('用户信息已失效，请重新登录')
+          setTimeout(() => {
+            router.push('/login')
+          },1000)
+        }
         resolve(res.data)
       }).catch(err => {
         reject(err)
       })
     })
+  },
+  put (url, data, config) {
+    return this.post(url,data,config,'put')
   }
 }
 

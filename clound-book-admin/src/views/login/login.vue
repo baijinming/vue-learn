@@ -1,22 +1,26 @@
 <template>
-    <div class="container">
-      <h1>欢迎来到云书后台管理系统</h1>
-      <div class="login-box">
-        <h2>请登录</h2>
-        <el-form class="login-form">
-          <el-form-item label="用户名">
-            <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
-          </el-form-item>
-          <el-form-item label="密码">
-            <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
-          </el-form-item>
-          <el-button type="primary" class="btn" @click="login" :loading="isLoading">登录</el-button>
-        </el-form>
+    <div>
+      <bubbing></bubbing>
+      <div class="container">
+        <h1>欢迎来到云书后台管理系统</h1>
+        <div class="login-box">
+          <h2>请登录</h2>
+          <el-form class="login-form">
+            <el-form-item label="用户名">
+              <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+            </el-form-item>
+            <el-form-item label="密码">
+              <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <el-button type="primary" class="btn" @click="login" :loading="isLoading">登录</el-button>
+          </el-form>
+        </div>
       </div>
     </div>
 </template>
 
 <script>
+    import bubbing from '../../components/bubbing'
     export default {
       data() {
         return {
@@ -40,22 +44,25 @@
                 this.$router.push('/layout')
               },1000)
             }else {
-              this.$message({
-                message: '登录失败',
-                type: 'warning'
-              })
+              this.$message.error('登录失败')
             }
             this.isLoading = false
           })
         }
+      },
+      components: {
+        bubbing
       }
     }
 </script>
 
 <style scoped lang="scss">
   .container{
-    height: 100vh;
-    background-color: #545c64;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 
     h1{
