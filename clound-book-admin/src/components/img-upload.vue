@@ -33,7 +33,6 @@
       },
       getToken () { // 获取上传凭证
         axios.get('http://upload.yaojunrong.com/getToken').then(res => {
-          console.log(res.data.data)
           this.uploadData.token = res.data.data
         })
       }

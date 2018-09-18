@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator=">">
       <el-breadcrumb-item :to="{ path: '/layout' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/layout/bookslist' }">图书列表</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/layout/books' }">图书列表</el-breadcrumb-item>
       <el-breadcrumb-item>分类列表</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="main">
@@ -88,9 +88,5 @@
     width: 500px;
     margin-top: 50px;
     margin-left: 50px;
-  }
-  img{
-    width: 100px;
-    height: 100px;
   }
 </style>

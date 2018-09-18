@@ -2,21 +2,21 @@
   <div>
     <el-breadcrumb separator=">">
       <el-breadcrumb-item :to="{ path: '/layout' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>修改管理员</el-breadcrumb-item>
+      <el-breadcrumb-item>修改个人信息</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="main">
       <el-form ref="form" :model="form">
         <el-form-item label="用户头像">
-          <imgUpload v-model="form.avator"></imgUpload>
+          <imgUpload v-model="form.avatar"></imgUpload>
         </el-form-item>
-        <el-form-item label="个性签名">
-          <el-input v-model="form.desc"></el-input>
+        <el-form-item label="用户昵称">
+          <el-input v-model="form.nickname"></el-input>
         </el-form-item>
         <el-form-item label="邮箱地址">
           <el-input v-model="form.email"></el-input>
         </el-form-item>
-        <el-form-item label="用户昵称">
-          <el-input v-model="form.nickname"></el-input>
+        <el-form-item label="个性签名">
+          <el-input type="textarea" v-model="form.desc"></el-input>
         </el-form-item>
         <el-form-item >
           <el-button
@@ -39,12 +39,10 @@
       },
       methods: {
         redact() {
-          console.log(this.form)
-          this.$axios.put('/user/userInfo', this.from).then(res => {
+          this.$axios.put('/user/userInfo', this.form).then(res => {
+            this.$store.commit('UPDATE_INFO',this.form)
             this.$message.success('修改成功')
-            setTimeout(() => {
-              this.$router.push('/layout/users')
-            },1000)
+            this.$router.go(0)
           })
         }
       },
@@ -52,7 +50,7 @@
         imgUpload
       },
       created() {
-        this.form = this.$route.query.form
+        this.form = this.$store.state.userInfo
       }
     }
 </script>

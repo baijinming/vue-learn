@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator=">">
       <el-breadcrumb-item :to="{ path: '/layout' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/layout/sortlist' }">分类列表</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/layout/sort' }">分类列表</el-breadcrumb-item>
       <el-breadcrumb-item>分类列表</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="main">
@@ -54,7 +54,7 @@
           }).then(res => {
             this.$message.success('修改成功')
             setTimeout(() => {
-              this.$router.push('/layout/sortlist')
+              this.$router.push('/layout/sort')
             },1000)
           })
         }

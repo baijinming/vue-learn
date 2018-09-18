@@ -5,12 +5,12 @@
         <h1>欢迎来到云书后台管理系统</h1>
         <div class="login-box">
           <h2>请登录</h2>
-          <el-form class="login-form">
-            <el-form-item label="用户名">
+          <el-form class="login-form" :rules="rule" ref="form" :model="form">
+            <el-form-item label="用户名" prop="username">
               <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
             </el-form-item>
-            <el-form-item label="密码">
-              <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+            <el-form-item label="密码" prop="password">
+              <el-input type="password" v-model="form.password" placeholder="请输入密码" @keyup.center="login"></el-input>
             </el-form-item>
             <el-button type="primary" class="btn" @click="login" :loading="isLoading">登录</el-button>
           </el-form>
@@ -23,30 +23,56 @@
     import bubbing from '../../components/bubbing'
     export default {
       data() {
+        var validateUsername = (rule, value, callback) => {
+          if(value) {
+            callback()
+          }else {
+            callback(new Error('用户名不能为空'))
+          }
+        };
+        var validatePassword = (rule, value, callback) => {
+          if(value && value.length >= 5){
+            callback()
+          }else {
+            callback(new Error('密码不能少于五位'))
+          }
+        };
         return {
           form: {
             username: '',
             password: ''
           },
-          isLoading:false
+          isLoading:false,
+          rule: {
+            username: [{validator: validateUsername, trigger: 'blur' }],
+            password: [{validator: validatePassword, trigger: 'blur' }]
+          }
         }
       },
       methods: {
         login() {
-          this.isLoading = true
-          this.$axios.post('/login',this.form).then(res => {
-            if(res.code == 200){
-              this.$message({
-                message: '登录成功',
-                type: 'success'
+          this.$refs['form'].validate((valid) => {
+            if (valid) {
+              var pass = this.form.password
+              this.isLoading = true
+              this.$axios.post('/login',this.form).then(res => {
+                if(res.code == 200){
+                  this.$store.commit('UPDATE_INFO', {...res.data, password: pass})
+                  this.$message({
+                    message: '登录成功',
+                    type: 'success'
+                  })
+                  setTimeout(() => {
+                    this.$router.push('/layout')
+                  },1000)
+                }else {
+                  this.$message.error('登录失败')
+                }
+                this.isLoading = false
               })
-              setTimeout(() => {
-                this.$router.push('/layout')
-              },1000)
-            }else {
-              this.$message.error('登录失败')
+            } else {
+              return false;
             }
-            this.isLoading = false
           })
         }
       },

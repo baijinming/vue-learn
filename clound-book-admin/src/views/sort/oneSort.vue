@@ -2,7 +2,8 @@
   <div>
     <el-breadcrumb separator=">">
       <el-breadcrumb-item :to="{ path: '/layout' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>图书列表</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/layout/sort' }">分类列表</el-breadcrumb-item>
+      <el-breadcrumb-item>{{title}}</el-breadcrumb-item>
     </el-breadcrumb>
     <br>
     <el-table
@@ -44,26 +45,30 @@
 </template>
 
 <script>
-    export default {
-        data() {
-          return {
-            tableData:[]
-          }
-        },
-      methods: {
-          getData() {
-            this.$axios.get('/book').then(res => {
-              this.tableData = res.data
-            })
-          },
-        redact(id) {
-          this.$router.push({name: 'redactbook',query: {id}})
-        }
-      },
-      created(){
-          this.getData()
+  export default {
+    data() {
+      return {
+        tableData:[],
+        title: ''
       }
+    },
+    methods: {
+      getData() {
+        let id = this.$route.query.id
+        this.$axios.get(`/category/${id}/books`).then(res => {
+          console.log(res)
+          this.title = res.data.title
+          this.tableData = res.data.books
+        })
+      },
+      redact(id) {
+        this.$router.push({name: 'redactBook',query: {id}})
+      }
+    },
+    created(){
+      this.getData()
     }
+  }
 </script>
 
 <style scoped>

@@ -28,10 +28,15 @@
           <el-button
             size="mini"
             type="primary"
+            @click="lookBooks(scope.row._id)">书籍</el-button>
+          <el-button
+            size="mini"
+            type="primary"
             @click="toRedact(scope.row._id)">编辑</el-button>
           <el-button
             size="mini"
-            type="danger">删除分类</el-button>
+            type="danger"
+            @click="reduce(scope.row._id)">删除分类</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -48,12 +53,33 @@
       },
       methods: {
         getData() {
-          this.$axios.get('/category').then(res => {
+          this.$axios.get('/category',{pn: this.pn, size:100}).then(res => {
             this.tableData = res.data
           })
         },
+        lookBooks(id) {
+          this.$router.push(`/layout/oneSort?id=${id}`)
+        },
         toRedact(id) {
-          this.$router.push({name: 'redactsort',query: {id}})
+          this.$router.push({name: 'redactSort',query: {id}})
+        },
+        reduce(id) {
+          this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+            this.$axios.delete(`/category/${id}`).then(res => {
+              this.$message.success('删除成功')
+              this.getData()
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
         }
       },
       created() {

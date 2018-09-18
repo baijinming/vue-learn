@@ -1,0 +1,93 @@
+<template>
+  <div>
+    <el-breadcrumb separator=">">
+      <el-breadcrumb-item :to="{ path: '/layout' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>轮播图列表</el-breadcrumb-item>
+    </el-breadcrumb>
+    <br>
+    <el-table
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        prop="title"
+        label="标题"
+        width="220">
+      </el-table-column>
+      <el-table-column label="轮播图">
+        <template slot-scope="scope">
+          <img :src="scope.row.img" class="user-avatar">
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="index"
+        label="排序"
+        width="320">
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="primary"
+            >查看图书</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="toRedact(scope.row._id)">编辑</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="reduce(scope.row._id)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        tableData:[],
+        pn: 1
+      }
+    },
+    methods: {
+      getData() {
+        this.$axios.get('/swiper').then(res => {
+          this.tableData = res.data
+        })
+      },
+      toRedact(id) {
+
+      },
+      reduce(id) {
+        this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.$axios.delete(`/swiper/${id}`).then(res => {
+            this.$message.success('删除成功')
+            this.getData()
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      }
+    },
+    created() {
+      this.getData()
+    }
+  }
+</script>
+
+<style scoped>
+  .user-avatar {
+    width: 100px;
+    height: 100px;
+  }
+</style>
