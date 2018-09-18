@@ -24,7 +24,9 @@ const components = {
   redactBook: () => import('@/views/books/redactBook'),
 
   carousel: () => import('@/views/carousel/carousel'),
-  addCarousel: () => import('@/views/carousel/addCarousel')
+  addCarousel: () => import('@/views/carousel/addCarousel'),
+  redactCarousel: () => import('@/views/carousel/redactCarousel'),
+  oneBook: () => import('@/views/carousel/oneBook'),
 }
 
 const router = new Router({
@@ -145,6 +147,20 @@ const router = new Router({
             title: '添加轮播图'
           },
           component: components.addCarousel
+        },
+        {
+          path: 'redactCarousel',
+          meta: {
+            title: '修改轮播图'
+          },
+          component: components.redactCarousel
+        },
+        {
+          path: 'oneBook',
+          meta: {
+            title: '查看对应书籍'
+          },
+          component: components.oneBook
         },
       ]
     }

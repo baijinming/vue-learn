@@ -2,6 +2,13 @@
     <div class="container">
       <div class="header">
         <h1 class="title">云书后台管理系统</h1>
+        <el-dropdown>
+          <img :src="imgUrl" alt="" class="img">
+          <el-dropdown-menu slot="dropdown" placement="bottom">
+            <el-dropdown-item>个人中心</el-dropdown-item>
+            <el-dropdown-item @click.native="exitLogin">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
       <div class="nav">
         <el-menu :router="true" background-color="#545c64" text-color="#fff" active-text-color="#409eff">
@@ -70,7 +77,37 @@
 
 <script>
     export default {
-        name: "layout"
+      data() {
+        return {
+          imgUrl: ''
+        }
+      },
+      methods: {
+        exitLogin() {
+          this.$confirm('此操作将退出登录, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+            this.$axios.get('/logout').then(res => {
+              if(res.code == 200) {
+                this.$message.success('已退出登录')
+                this.$store.commit('UPDATE_INFO', {})
+                this.$router.push('/login')
+              }
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消退出'
+            });
+          });
+        }
+      },
+      created() {
+        this.imgUrl = this.$store.state.userInfo.avatar
+      }
     }
 </script>
 
@@ -91,6 +128,12 @@
         text-align: center;
         color: #333;
         width: 90%;
+      }
+
+      .img {
+        width: 40px;
+        height: 40px;
+        margin-top: 10px;
       }
     }
 

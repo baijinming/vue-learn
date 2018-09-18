@@ -8,15 +8,15 @@
     <el-table
       :data="tableData"
       style="width: 100%">
-      <el-table-column
-        prop="title"
-        label="标题"
-        width="220">
-      </el-table-column>
       <el-table-column label="轮播图">
         <template slot-scope="scope">
           <img :src="scope.row.img" class="user-avatar">
         </template>
+      </el-table-column>
+      <el-table-column
+        prop="title"
+        label="标题"
+        width="220">
       </el-table-column>
       <el-table-column
         prop="index"
@@ -28,7 +28,7 @@
           <el-button
             size="mini"
             type="primary"
-            >查看图书</el-button>
+            @click="look(scope.row._id)">查看图书</el-button>
           <el-button
             size="mini"
             type="primary"
@@ -57,8 +57,11 @@
           this.tableData = res.data
         })
       },
+      look(id) {
+        this.$router.push(`/layout/oneBook?id=${id}`)
+      },
       toRedact(id) {
-
+        this.$router.push(`/layout/redactCarousel?id=${id}`)
       },
       reduce(id) {
         this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
@@ -67,9 +70,11 @@
           type: 'warning',
           center: true
         }).then(() => {
-          this.$axios.delete(`/swiper/${id}`).then(res => {
-            this.$message.success('删除成功')
-            this.getData()
+          this.$axios.delete(`/swiper`,id).then(res => {
+            if(res.code == 200){
+              this.$message.success('删除成功')
+              this.getData()
+            }
           })
         }).catch(() => {
           this.$message({
@@ -87,7 +92,7 @@
 
 <style scoped>
   .user-avatar {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
 </style>

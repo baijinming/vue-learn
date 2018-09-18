@@ -67,13 +67,13 @@
           this.$refs['form'].validate((valid) => {
             if (valid) {
               this.$store.commit('EDIT_PASSWORD', this.form.newPass)
-              let params ={
-                password:this.form.pass,
-                new_password:this.form.newPass
+              let params = {
+                password: this.form.pass,
+                new_password: this.form.newPass
               }
               this.$axios.put('/user/password', params).then(res => {
                 this.$message.success('修改密码成功')
-                this.$router.go(0)
+                this.$router.push('/layout')
               })
             } else {
               return false;

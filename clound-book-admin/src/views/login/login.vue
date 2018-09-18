@@ -5,7 +5,7 @@
         <h1>欢迎来到云书后台管理系统</h1>
         <div class="login-box">
           <h2>请登录</h2>
-          <el-form class="login-form" :rules="rule" ref="form" :model="form">
+          <el-form class="login-form" status-icon :rules="rule" ref="form" :model="form">
             <el-form-item label="用户名" prop="username">
               <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
             </el-form-item>

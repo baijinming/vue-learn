@@ -5,7 +5,7 @@
     <el-breadcrumb-item>添加管理员</el-breadcrumb-item>
   </el-breadcrumb>
   <div class="main">
-    <el-form ref="form" :model="form" :rules="rule">
+    <el-form status-icon ref="form" :model="form" :rules="rule">
       <el-form-item label="头像">
         <imgUpload v-model="form.avatar"></imgUpload>
       </el-form-item>

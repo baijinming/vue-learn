@@ -2,36 +2,37 @@
   <div>
     <el-breadcrumb separator=">">
       <el-breadcrumb-item :to="{ path: '/layout' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>添加轮播图</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/layout/carousel' }">轮播图列表</el-breadcrumb-item>
+      <el-breadcrumb-item>修改轮播图</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="main">
-      <el-form :model="form">
+      <el-form ref="form" :model="form">
         <el-form-item label="标题">
           <el-input v-model="form.title"></el-input>
         </el-form-item>
-        <el-form-item label="分类图片">
+        <el-form-item label="图片">
           <imgUpload v-model="form.img"></imgUpload>
         </el-form-item>
         <el-form-item label="对应书籍">
           <el-dropdown trigger="click" size="mini">
             <span class="el-dropdown-link">
-              {{title}}<i class="el-icon-arrow-down el-icon--right"></i>
+              {{bookTitle}}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <div v-for="item in books" :key="item._id" @click="lockId(item._id, item.title)">
+              <div v-for="item in books" :key="item._id" @click="lock(item._id, item.title)">
                 <el-dropdown-item>{{item.title}}</el-dropdown-item>
               </div>
             </el-dropdown-menu>
           </el-dropdown>
         </el-form-item>
-        <el-form-item label="序号">
+        <el-form-item label="排序">
           <el-input-number v-model="form.index"  :min="1" :max="998" ></el-input-number>
         </el-form-item>
         <el-form-item >
           <el-button
             size="mini"
             type="primary"
-            @click="add">添加分类</el-button>
+            @click="redact">提交修改</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -43,43 +44,51 @@
   export default {
     data() {
       return {
-        form:{
+        form: {
           title: '',
           img: '',
-          book: '',
-          index: 1
+          index: '',
+          book: {}
         },
-        books: [],
-        defaultTitle: '请选择'
+        id: '',
+        books: []
       }
-    },
-    components: {
-      imgUpload
     },
     methods: {
       getData() {
+        this.id = this.$route.query.id
+        this.$axios.get(`/swiper/${this.id}`).then(res => {
+          this.form = res.data
+        })
         this.$axios.get('/book').then(res => {
           this.books = res.data
         })
       },
-      lockId(bookId, title) {
-        this.form.book = bookId
-        this.defaultTitle = title
-      },
-      add() {
-        this.$axios.post('/swiper',this.form).then(res => {
-          if(res.code == 200){
-            this.$message.success('添加成功')
-            setTimeout(() => {
-              this.$router.push('/layout/carousel')
-            },1000)
+      redact() {
+        let newMessage = {
+          title: this.form.title,
+          img: this.form.img,
+          index: this.form.index,
+          book: this.form.book._id
+        }
+        this.$axios.put(`/swiper/${this.id}`, newMessage).then(res => {
+          if(res.code == 200) {
+            this.$message.success('修改成功')
+            this.$router.push('/layout/carousel')
           }
         })
-      }
+      },
+      lock(bookId, title) {
+        this.form.book._id = bookId
+        this.form.book.title = title
+      },
+    },
+    components: {
+      imgUpload
     },
     computed: {
-      title() {
-        return this.defaultTitle
+      bookTitle() {
+        return this.form.book.title
       }
     },
     created() {
