@@ -3,7 +3,7 @@
     <el-breadcrumb separator=">">
       <el-breadcrumb-item :to="{ path: '/layout' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/layout/books' }">图书列表</el-breadcrumb-item>
-      <el-breadcrumb-item>分类列表</el-breadcrumb-item>
+      <el-breadcrumb-item>修改图书</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="main">
       <el-form ref="form" :model="form">
@@ -71,7 +71,7 @@
             if(res.code == 200){
               this.$message.success('修改成功')
               setTimeout(() => {
-                this.$router.push('/layout/bookslist')
+                this.$router.push('/layout/books')
               },1000)
             }
           })

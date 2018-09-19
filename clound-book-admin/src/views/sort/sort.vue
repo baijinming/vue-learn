@@ -40,6 +40,10 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination layout="total, prev, pager, next" prev-text="上一页" next-text="下一页"
+                   :total="count" :page-size="5"
+                   @current-change="changePage" @next-click="nextPage" @prev-click="lastPage">
+    </el-pagination>
   </div>
 </template>
 
@@ -48,14 +52,28 @@
       data() {
         return {
           tableData:[],
+          count: 0,
           pn: 1
         }
       },
       methods: {
         getData() {
-          this.$axios.get('/category',{pn: this.pn, size:100}).then(res => {
+          this.$axios.get('/category',{pn: this.pn, size:5}).then(res => {
+            this.count = res.count
             this.tableData = res.data
           })
+        },
+        changePage(page) {
+          this.pn = page
+          this.getData()
+        },
+        nextPage() {
+          this.pn++
+          this.getData()
+        },
+        lastPage() {
+          this.pn--
+          this.getData()
         },
         lookBooks(id) {
           this.$router.push(`/layout/oneSort?id=${id}`)
@@ -92,5 +110,9 @@
   .user-avatar {
     width: 100px;
     height: 100px;
+  }
+  .el-pagination{
+    text-align: center;
+    margin-top: 20px;
   }
 </style>

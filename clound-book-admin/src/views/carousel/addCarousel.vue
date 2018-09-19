@@ -13,16 +13,14 @@
           <imgUpload v-model="form.img"></imgUpload>
         </el-form-item>
         <el-form-item label="对应书籍">
-          <el-dropdown trigger="click" size="mini">
-            <span class="el-dropdown-link">
-              {{title}}<i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <div v-for="item in books" :key="item._id" @click="lockId(item._id, item.title)">
-                <el-dropdown-item>{{item.title}}</el-dropdown-item>
-              </div>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-select v-model="form.book" placeholder="请选择">
+            <el-option
+              v-for="(item, index) in books"
+              :key="index"
+              :label="item.title"
+              :value="item._id">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="序号">
           <el-input-number v-model="form.index"  :min="1" :max="998" ></el-input-number>
@@ -49,8 +47,7 @@
           book: '',
           index: 1
         },
-        books: [],
-        defaultTitle: '请选择'
+        books: []
       }
     },
     components: {
@@ -62,10 +59,6 @@
           this.books = res.data
         })
       },
-      lockId(bookId, title) {
-        this.form.book = bookId
-        this.defaultTitle = title
-      },
       add() {
         this.$axios.post('/swiper',this.form).then(res => {
           if(res.code == 200){
@@ -75,11 +68,6 @@
             },1000)
           }
         })
-      }
-    },
-    computed: {
-      title() {
-        return this.defaultTitle
       }
     },
     created() {

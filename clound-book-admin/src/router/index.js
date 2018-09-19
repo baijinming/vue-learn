@@ -22,6 +22,7 @@ const components = {
 
   books: () => import('@/views/books/books'),
   redactBook: () => import('@/views/books/redactBook'),
+  addBook: () => import('@/views/books/addBook'),
 
   carousel: () => import('@/views/carousel/carousel'),
   addCarousel: () => import('@/views/carousel/addCarousel'),
@@ -133,6 +134,13 @@ const router = new Router({
             title: '图书修改'
           },
           component: components.redactBook
+        },
+        {
+          path: 'addBook',
+          meta: {
+            title: '添加图书'
+          },
+          component: components.addBook
         },
         {
           path: 'carousel',

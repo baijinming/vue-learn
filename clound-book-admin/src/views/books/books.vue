@@ -8,25 +8,25 @@
     <el-table
       :data="tableData"
       style="width: 100%">
-      <el-table-column
-        prop="title"
-        label="书名"
-        width="220">
-      </el-table-column>
-      <el-table-column label="书籍头图">
+      <el-table-column label="书籍头图" width="100">
         <template slot-scope="scope">
           <img :src="scope.row.img" class="user-avatar">
         </template>
       </el-table-column>
       <el-table-column
-        prop="index"
-        label="书籍排序"
-        width="150">
-      </el-table-column>
-      <el-table-column
         prop="author"
         label="作者"
         width="220">
+      </el-table-column>
+      <el-table-column
+        prop="title"
+        label="书名"
+        width="320">
+      </el-table-column>
+      <el-table-column
+        prop="index"
+        label="书籍排序"
+        width="150">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">

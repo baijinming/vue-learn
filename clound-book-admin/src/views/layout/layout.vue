@@ -11,6 +11,13 @@
         </el-dropdown>
       </div>
       <div class="nav">
+        <div class="via">
+          <img :src="imgUrl" alt="" class="icon">
+          <div class="text">
+            <p>{{nickname}}</p>
+            <p>欢迎您</p>
+          </div>
+        </div>
         <el-menu :router="true" background-color="#545c64" text-color="#fff" active-text-color="#409eff">
           <el-submenu index="1">
             <template slot="title">
@@ -53,7 +60,7 @@
             <el-menu-item-group>
               <template slot="title">图书管理</template>
               <el-menu-item index="/layout/books">图书列表</el-menu-item>
-              <el-menu-item index="/layout">添加图书</el-menu-item>
+              <el-menu-item index="/layout/addBook">添加图书</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
@@ -79,7 +86,8 @@
     export default {
       data() {
         return {
-          imgUrl: ''
+          imgUrl: '',
+          nickname: ''
         }
       },
       methods: {
@@ -107,6 +115,7 @@
       },
       created() {
         this.imgUrl = this.$store.state.userInfo.avatar
+        this.nickname = this.$store.state.userInfo.nickname
       }
     }
 </script>
@@ -134,6 +143,8 @@
         width: 40px;
         height: 40px;
         margin-top: 10px;
+        border-radius: 50%;
+        overflow: hidden;
       }
     }
 
@@ -144,6 +155,29 @@
       left: 0;
       bottom: 0;
       background-color: #545c64;
+
+      .via {
+        padding: 20px;
+        display: flex;
+        text-align: center;
+
+        .icon {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          overflow: hidden;
+        }
+
+        .text {
+          padding: 10px 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 80px;
+          font-size: 12px;
+          color: #fff;
+        }
+      }
 
       .el-menu {
         border-right: 1px solid #545c64;
