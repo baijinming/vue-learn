@@ -13,7 +13,7 @@
         label="分类名"
         width="220">
       </el-table-column>
-      <el-table-column label="用户头像">
+      <el-table-column label="分类头图">
         <template slot-scope="scope">
           <img :src="scope.row.icon" class="user-avatar">
         </template>
