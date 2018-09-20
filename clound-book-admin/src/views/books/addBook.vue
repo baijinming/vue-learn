@@ -75,7 +75,7 @@
         this.$axios.post('/book',this.form).then(res => {
           if(res.code == 200){
             this.$message.success('添加成功')
-            this.$router.go(0)
+            this.$router.push('/layout/books')
           }
         })
       }

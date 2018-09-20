@@ -5,7 +5,32 @@
       <el-breadcrumb-item :to="{ path: '/layout/sort' }">分类列表</el-breadcrumb-item>
       <el-breadcrumb-item>{{title}}</el-breadcrumb-item>
     </el-breadcrumb>
-    <br>
+    <el-button style="float: right"
+      size="mini"
+      type="primary"
+      @click="toggleAdd">添加书籍</el-button>
+    <div v-if="isAdd" style="position: relative" class="addbook">
+      <div class="themain">
+        <el-select v-model="bookid" placeholder="请选择">
+          <el-option
+            v-for="(item, index) in books"
+            :key="index"
+            :label="item.title"
+            :value="item._id">
+          </el-option>
+        </el-select>
+        <div class="btns">
+          <el-button
+            size="mini"
+            type="primary"
+            @click="addBook">添加</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="toggleAdd">取消</el-button>
+        </div>
+      </div>
+    </div>
     <el-table
       :data="tableData"
       style="width: 100%">
@@ -54,31 +79,83 @@
     data() {
       return {
         tableData:[],
-        title: ''
+        title: '',
+        id: '',
+        bookid: '',
+        books: [],
+        isAdd: false
       }
     },
     methods: {
       getData() {
-        let id = this.$route.query.id
-        this.$axios.get(`/category/${id}/books`).then(res => {
-          console.log(res)
+        this.id = this.$route.query.id
+        this.$axios.get(`/category/${this.id}/books`).then(res => {
           this.title = res.data.title
           this.tableData = res.data.books
         })
       },
       redact(id) {
         this.$router.push({name: 'redactBook',query: {id}})
+      },
+      toggleAdd() {
+        this.isAdd = !this.isAdd
+      },
+      addBook() {
+        if(this.bookid == ''){
+          this.$message.error('请选择添加书籍')
+        }else {
+          this.$axios.post(`/category/${this.id}/book/${this.bookid}`,{id: this.id, bookid: this.bookid}).then(res => {
+            if(res.code == 200){
+              this.$message.success(res.msg)
+              this.isAdd = false
+              this.getData()
+            }
+          })
+        }
       }
     },
     created(){
       this.getData()
+      this.$axios.get('/book').then(res => {
+        this.books = res.data
+      })
     }
   }
 </script>
 
-<style scoped>
-  .user-avatar{
+<style scoped lang="scss">
+  .user-avatar {
     width: 50px;
     height: 50px;
   }
+
+ /deep/{
+   .addbook {
+     float: right;
+     top: 60px;
+     right: 120px;
+     z-index: 998;
+
+     .themain {
+       width: 200px;
+       height: 100px;
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+       background-color: #f1f1f1;
+       display: flex;
+       justify-content: space-between;
+       flex-direction: column;
+       padding:15px 10px;
+       border-radius: 10px;
+
+       .btns {
+         display: flex;
+         justify-content: space-between;
+         padding: 0 10px;
+       }
+     }
+   }
+ }
 </style>

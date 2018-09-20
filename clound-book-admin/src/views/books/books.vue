@@ -28,6 +28,11 @@
         label="书籍排序"
         width="150">
       </el-table-column>
+      <el-table-column
+        prop="type.title"
+        label="类别"
+        width="150">
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -36,7 +41,8 @@
             @click="redact(scope.row._id)">编辑</el-button>
           <el-button
             size="mini"
-            type="danger">删除</el-button>
+            type="danger"
+            @click="reduce(scope.row._id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -51,13 +57,19 @@
           }
         },
       methods: {
-          getData() {
-            this.$axios.get('/book').then(res => {
-              this.tableData = res.data
-            })
-          },
+        getData() {
+          this.$axios.get('/book').then(res => {
+            this.tableData = res.data
+          })
+        },
         redact(id) {
           this.$router.push({name: 'redactBook',query: {id}})
+        },
+        reduce(id) {
+          this.$axios.delete(`/book/${id}`).then(res => {
+            this.$message.success(res.msg)
+            this.getData()
+          })
         }
       },
       created(){

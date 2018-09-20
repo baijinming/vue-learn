@@ -76,7 +76,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          this.$axios.post('/swiper/delete',[id]).then(res => {
+          this.$axios.post('/swiper/delete',{ids: [id]}).then(res => {
             if(res.code == 200){
               this.$message.success('删除成功')
               this.getData()

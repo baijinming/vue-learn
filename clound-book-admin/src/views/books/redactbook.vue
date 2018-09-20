@@ -17,7 +17,7 @@
           <imgUpload v-model="form.img"></imgUpload>
         </el-form-item>
         <el-form-item label="书籍简介">
-          <el-input v-model="form.desc"></el-input>
+          <el-input type="textarea" v-model="form.desc"></el-input>
         </el-form-item>
         <el-form-item label="图书分类">
           <el-select v-model="form.type" placeholder="请选择">

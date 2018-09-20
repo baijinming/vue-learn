@@ -41,7 +41,7 @@
       &:nth-child(3) {
          left: 65%;
          animation-delay: 4s;
-        animation-duration: 20s;
+        animation-duration: 10s;
        }
       &:nth-child(4) {
          left: 40%;
@@ -62,8 +62,8 @@
        }
       &:nth-child(8) {
          left: 55%;
-         animation-delay: 4s;
-         animation-duration: 15s;
+         animation-delay: 1s;
+         animation-duration: 5s;
        }
       &:nth-child(9) {
          left: 25%;
