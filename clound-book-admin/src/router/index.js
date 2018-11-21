@@ -41,7 +41,9 @@ const router = new Router({
       meta: {
         title: '后台登录页面'
       },
-      component: components.login
+      component(resolve){
+        require(['@/views/login/login'],resolve)
+      }
     },
     {
       path: '/layout',
